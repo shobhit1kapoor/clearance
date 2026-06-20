@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { apiError, requestIdentity } from "@/lib/http";
+import { apiError, publicRequest, requestIdentity } from "@/lib/http";
 import { store } from "@/lib/store";
-import { publicRequest } from "../route";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

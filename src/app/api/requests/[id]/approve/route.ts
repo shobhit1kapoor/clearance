@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, assertSameOrigin, requestIdentity } from "@/lib/http";
+import { apiError, assertSameOrigin, publicRequest, requestIdentity } from "@/lib/http";
 import { approveRequest } from "@/lib/service";
-import { publicRequest } from "../../route";
 
 const schema = z.object({ confirmation: z.string().max(80).optional() });
 

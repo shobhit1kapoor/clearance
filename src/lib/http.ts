@@ -23,3 +23,8 @@ export function apiError(error: unknown, status = 400) {
   const message = error instanceof Error ? error.message : "Unexpected request failure";
   return NextResponse.json({ error: message }, { status });
 }
+
+export function publicRequest<T extends { sessionHash: string; ipHash: string }>(request: T) {
+  const { sessionHash: _sessionHash, ipHash: _ipHash, ...safe } = request;
+  return safe;
+}
