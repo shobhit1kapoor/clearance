@@ -40,10 +40,11 @@
     "@types/react-dom": "^19.1.0",
     "tailwindcss": "^4.1.17",
     "typescript": "5.8.3",
-    "vitest": "4.0.16"
+    "vitest": "4.1.9"
   },
   "overrides": {
     "@grpc/grpc-js": "1.14.4",
+    "esbuild": "0.28.1",
     "postcss": "8.5.15",
     "protobufjs": "8.6.4",
     "ws": "8.21.0"
