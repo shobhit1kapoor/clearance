@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import type { ClearanceRequest, PolicyCheck } from "@/lib/domain";
 import { scenarios } from "@/lib/domain";
-import { hashscanTransaction } from "@/lib/security";
 
 const scenarioList = [
   { key: "approved", label: "Approved vendor", sub: "1 HBAR · dependency scan", icon: ShieldCheck },
@@ -118,7 +117,7 @@ export function ClearanceApp() {
           <aside className="inspector">
             <div className="inspector-head"><div><ShieldCheck size={17}/>Policy inspector</div>{request && <button onClick={startReplay}><RefreshCw size={13}/> Replay</button>}</div>
             {!request ? <div className="empty-inspector"><Gauge/><strong>Awaiting intent</strong><p>Submit a request to see policies execute across the tool lifecycle.</p></div> : <>
-              <div className="risk-summary"><span>RISK SCORE</span><strong>{request.decision === "BLOCKED" ? "92" : request.elevated ? "68" : "18"}<small>/100</small></strong><div className={`risk-line ${request.decision.toLowerCase()}`}><i/></div></div>
+              <div className="risk-summary"><span>RISK SCORE</span><strong>{riskScore(request)}<small>/100</small></strong><div className={`risk-line ${request.decision === "BLOCKED" ? "blocked" : request.elevated ? "elevated" : "low"}`}><i style={{ width: `${riskScore(request)}%` }}/></div></div>
               <div className="checks">{request.policyChecks.map(check => <PolicyRow key={check.key} check={check}/>)}</div>
               <div className="timeline-title"><span>LIFECYCLE TRACE</span><small>{request.events.length} events</small></div>
               <div className="timeline">{request.events.map((entry, index) => { const shown = replay === null || index <= replay; return <div className={`timeline-row ${shown ? entry.status : "muted"}`} key={entry.id}><span>{entry.status === "blocked" ? <X/> : entry.status === "error" ? <TriangleAlert/> : <Check/>}</span><div><strong>{entry.label}</strong><small>{entry.stage} · {new Date(entry.at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"})}</small></div></div>})}</div>
@@ -139,6 +138,8 @@ export function ClearanceApp() {
 }
 
 function Logo() { return <svg viewBox="0 0 32 32" role="img" aria-label="Clearance"><rect x="2" y="2" width="28" height="28" rx="9" fill="currentColor" opacity=".12"/><path d="M21.8 11.2a8 8 0 1 0 0 9.6M13 16l2.2 2.2L23 10.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg> }
+function hashscanTransaction(transactionId: string) { return `https://hashscan.io/testnet/transaction/${encodeURIComponent(transactionId)}`; }
+function riskScore(request: ClearanceRequest) { return request.decision === "BLOCKED" ? 92 : request.elevated ? 68 : 18; }
 function Data({label,value}:{label:string;value:string}) { return <div className="data"><small>{label}</small><strong>{value}</strong></div> }
 function DecisionBadge({request}:{request:ClearanceRequest}) { const blocked=request.decision==="BLOCKED", done=request.transactionId; return <span className={`decision ${blocked?"blocked":done?"approved":"review"}`}>{blocked?<Ban/>:done?<Check/>:<Clock3/>}{blocked?"BLOCKED":done?"APPROVED":"REQUIRES APPROVAL"}</span> }
 function PolicyRow({check}:{check:PolicyCheck}) { return <div className="policy-row"><span className={check.verdict.toLowerCase()}>{check.verdict==="PASS"?<Check/>:check.verdict==="FAIL"?<X/>:<Clock3/>}</span><div><strong>{check.label}</strong><small>{check.observed}</small></div><button title={check.reason}>i</button></div> }
