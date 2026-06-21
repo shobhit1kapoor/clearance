@@ -37,7 +37,7 @@ class PostgresStore implements RequestStore {
   private pool: Pool;
   private ready: Promise<void>;
   constructor(url: string) {
-    this.pool = new Pool({ connectionString: url, ssl: url.includes("localhost") ? undefined : { rejectUnauthorized: false }, max: 4 });
+    this.pool = new Pool({ connectionString: url, ssl: url.includes("localhost") ? undefined : { rejectUnauthorized: true }, max: 4 });
     this.ready = this.bootstrap();
   }
   private async bootstrap() {
