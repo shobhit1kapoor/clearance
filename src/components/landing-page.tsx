@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Check, Github, LockKeyhole, ShieldCheck } from "lucide-react";
+import { NoiseBackground } from "@/components/ui/noise-background";
 
 export function LandingPage() {
   return (
@@ -21,9 +22,14 @@ export function LandingPage() {
         <div className="landing-copy">
           <h1>The control layer between agents and money.</h1>
           <p>Clearance enforces who agents can pay, how much they can spend, and when a person must approve—before HBAR moves.</p>
-          <Link className="landing-primary" href="/dashboard">
-            Open live control plane <ArrowRight size={17} />
-          </Link>
+          <NoiseBackground
+            containerClassName="landing-primary-noise"
+            gradientColors={["#cc3366", "#8259ef", "#b47aff"]}
+          >
+            <Link className="landing-primary" href="/dashboard">
+              Open live control plane <ArrowRight size={17} />
+            </Link>
+          </NoiseBackground>
         </div>
       </section>
 
