@@ -32,3 +32,5 @@ button { cursor: pointer; }
 
 /* Risk-bar width is set from the evaluated score; state only controls color. */
 .risk-line.low i{background:var(--green)}.risk-line.elevated i{background:var(--amber)}.risk-line.blocked i{background:var(--red)}
+
+.audit-box{margin:0 15px 15px;border-radius:8px;padding:11px;display:flex;gap:9px;align-items:center;background:rgba(103,164,255,.06);border:1px solid rgba(103,164,255,.18);color:#7fb0ff}.audit-box div{display:flex;flex-direction:column;gap:3px;flex:1}.audit-box strong{font-size:11px}.audit-box a{font:9px var(--font-mono);color:#7894bd;display:flex;gap:5px;align-items:center}.audit-box small{font-size:9px;color:#718097}.audit-box.failed{color:var(--amber);border-color:rgba(244,198,106,.18);background:rgba(244,198,106,.05)}.audit-box button{border:1px solid rgba(244,198,106,.25);background:transparent;color:var(--amber);border-radius:6px;padding:6px 8px;font-size:9px;display:flex;gap:5px;align-items:center}

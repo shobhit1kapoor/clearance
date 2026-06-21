@@ -70,6 +70,16 @@ export async function approveRequest(id: string, sessionHash: string, confirmati
     request.state = "PAID"; request.decision = "APPROVED";
     request.events.push(event("receipt", "Hedera receipt confirmed", "complete", request.transactionId));
     await store.save(request);
+    try {
+      request.auditStatus = "PENDING";
+      request.auditTransactionId = await publishDecisionAudit(request);
+      request.auditStatus = "CONFIRMED";
+      request.events.push(event("audit", "HCS decision proof generated", "complete", request.auditTransactionId));
+    } catch (auditError) {
+      request.auditStatus = "FAILED";
+      request.events.push(event("audit", "HCS decision proof pending retry", "error", auditError instanceof Error ? auditError.message : "Audit publication failed"));
+    }
+    await store.save(request);
     request.state = "SCANNING"; await store.save(request);
     request.scan = await scanRepository(request.intent.repository || "shobhit1kapoor/signalops-demo");
     request.state = "COMPLETED"; request.events.push(event("service", "Security assessment delivered", "complete", "Live GitHub evidence collected after payment."));

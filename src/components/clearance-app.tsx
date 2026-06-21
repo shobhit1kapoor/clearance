@@ -48,6 +48,18 @@ export function ClearanceApp() {
     finally { setLoading(false); }
   }
 
+  async function retryAudit() {
+    if (!request) return;
+    setLoading(true); setError("");
+    try {
+      const response = await fetch(`/api/requests/${request.id}/audit/retry`, { method: "POST" });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setRequest(data.request);
+    } catch (e) { setError(e instanceof Error ? e.message : "Audit retry failed"); }
+    finally { setLoading(false); }
+  }
+
   function startReplay() { if (request) setReplay(0); }
   useEffect(() => {
     if (replay === null || !request || replay >= request.events.length - 1) return;
@@ -108,6 +120,8 @@ export function ClearanceApp() {
                   {request.state === "BLOCKED" && <div className="blocked-copy"><Ban size={18}/><div><strong>Blocked before transaction creation</strong><p>Core action, signing, and submission were never reached.</p></div></div>}
                   {["AWAITING_APPROVAL","AWAITING_ELEVATED_APPROVAL"].includes(request.state) && <div className="approval-box"><div><LockKeyhole size={18}/><span><strong>{request.elevated ? "Elevated confirmation required" : "Explicit approval required"}</strong><small>The model cannot set or access this authorization.</small></span></div>{request.elevated && <input value={confirmation} onChange={e => setConfirmation(e.target.value)} placeholder={`Type APPROVE ${request.intent.amountHbar} HBAR`}/>}<button onClick={approve} disabled={loading}>{loading ? <Loader2 className="spin" size={16}/> : <Fingerprint size={16}/>} {request.elevated ? "Approve elevated request" : `Approve ${request.intent.amountHbar} HBAR`}</button></div>}
                   {request.transactionId && <div className="success-box"><BadgeCheck size={21}/><div><strong>Payment confirmed on Hedera</strong><a href={hashscanTransaction(request.transactionId)} target="_blank" rel="noreferrer">{request.transactionId}<ExternalLink size={13}/></a></div></div>}
+                  {request.auditTransactionId && <div className="audit-box"><Fingerprint size={18}/><div><strong>HCS policy proof confirmed</strong><a href={hashscanTransaction(request.auditTransactionId)} target="_blank" rel="noreferrer">{request.auditTransactionId}<ExternalLink size={13}/></a></div></div>}
+                  {request.auditStatus === "FAILED" && <div className="audit-box failed"><TriangleAlert size={18}/><div><strong>HCS proof needs retry</strong><small>Payment remains confirmed; audit state is reported separately.</small></div><button onClick={retryAudit} disabled={loading}><RefreshCw size={13}/> Retry</button></div>}
                 </motion.div>}
               </AnimatePresence>
               {request?.scan && <ScanReport request={request}/>} 

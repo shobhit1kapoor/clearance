@@ -27,7 +27,7 @@ export type SpendToolParams = SpendIntent;
 export interface NormalizedSpendParams extends SpendIntent {
   vendorId: string | null;
   vendorAccountId: string | null;
-  amountTinybars: bigint;
+  amountTinybars: string;
   requestHash: string;
 }
 
@@ -89,11 +89,11 @@ abstract class ClearancePolicy extends AbstractPolicy {
 
 export class MaxSpendPolicy extends ClearancePolicy {
   name = "Max spend policy"; description = "Blocks purchases above 5 HBAR.";
-  protected shouldBlockPostParamsNormalization(params: PostParamsNormalizationParams) { return this.normalized(params).amountTinybars > policyConfig.maxSpendTinybars; }
+  protected shouldBlockPostParamsNormalization(params: PostParamsNormalizationParams) { return BigInt(this.normalized(params).amountTinybars) > policyConfig.maxSpendTinybars; }
 }
 export class DailyBudgetPolicy extends ClearancePolicy {
   name = "Daily budget policy"; description = "Blocks projected daily spend above 20 HBAR.";
-  protected shouldBlockPostParamsNormalization(params: PostParamsNormalizationParams) { const rt = runtime(params); return rt.spentTodayTinybars + this.normalized(params).amountTinybars > policyConfig.dailyBudgetTinybars; }
+  protected shouldBlockPostParamsNormalization(params: PostParamsNormalizationParams) { const rt = runtime(params); return rt.spentTodayTinybars + BigInt(this.normalized(params).amountTinybars) > policyConfig.dailyBudgetTinybars; }
 }
 export class VendorAllowlistPolicy extends ClearancePolicy {
   name = "Vendor allowlist policy"; description = "Only approved counterparties can receive funds.";
@@ -139,7 +139,7 @@ export class ClearancePaymentTool extends BaseTool<SpendToolParams, NormalizedSp
       ...intent,
       vendorId: allowed ? policyConfig.vendor.id : null,
       vendorAccountId: allowed ? policyConfig.vendor.accountId : null,
-      amountTinybars: hbarToTinybars(intent.amountHbar),
+      amountTinybars: hbarToTinybars(intent.amountHbar).toString(),
       requestHash: canonicalHash({ ...intent, vendorAccountId: allowed ? policyConfig.vendor.accountId : null })
     } satisfies NormalizedSpendParams;
     return normalized;
@@ -203,5 +203,6 @@ export async function executeWithAgentToolkit(client: Client, context: Clearance
   });
   const tool = toolkit.getTools()[CLEARANCE_TOOL] as { execute?: (input: SpendToolParams, options: unknown) => Promise<unknown> };
   if (!tool?.execute) throw new Error("Clearance plugin tool was not registered with HederaAIToolkit");
-  return tool.execute(intent, { toolCallId: `clearance-${context.clearance.requestId}`, messages: [] });
+  const output = await tool.execute(intent, { toolCallId: `clearance-${context.clearance.requestId}`, messages: [] });
+  return typeof output === "string" ? JSON.parse(output) : output;
 }
