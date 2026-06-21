@@ -29,10 +29,10 @@ After a confirmed payment, Clearance performs a real GitHub API assessment of `s
 The complete approved flow was exercised against Hedera testnet on June 21, 2026:
 
 - Treasury: [`0.0.9295451`](https://hashscan.io/testnet/account/0.0.9295451)
-- SecureScan Labs vendor: [`0.0.9295531`](https://hashscan.io/testnet/account/0.0.9295531)
-- Approved 1 HBAR payment: [`0.0.9295451@1782018671.886760509`](https://hashscan.io/testnet/transaction/0.0.9295451%401782018671.886760509)
-- HCS audit topic: [`0.0.9295532`](https://hashscan.io/testnet/topic/0.0.9295532)
-- Compact decision proof: [`0.0.9295451@1782018672.202568545`](https://hashscan.io/testnet/transaction/0.0.9295451%401782018672.202568545)
+- SecureScan Labs vendor: [`0.0.9293122`](https://hashscan.io/testnet/account/0.0.9293122)
+- Approved 1 HBAR payment: [`0.0.9295451@1782021474.394770530`](https://hashscan.io/testnet/transaction/0.0.9295451%401782021474.394770530)
+- HCS audit topic: [`0.0.9295569`](https://hashscan.io/testnet/topic/0.0.9295569)
+- Compact decision proof: [`0.0.9295451@1782021479.141371116`](https://hashscan.io/testnet/transaction/0.0.9295451%401782021479.141371116)
 
 The topic contains both the official `HcsAuditTrailHook` entry and Clearance's compact, hash-linked policy decision proof.
 

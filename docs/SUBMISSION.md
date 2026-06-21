@@ -16,7 +16,7 @@ Clearance is the policy control plane between AI agents and money. Gemini can pr
 
 The live demo includes an approved 1 HBAR scan, a 25 HBAR unknown-vendor block that never reaches transaction construction, and an elevated production audit. Successful payments produce real Hedera testnet receipts, HCS audit evidence, and a post-payment GitHub security assessment.
 
-Verified evidence: testnet payment `0.0.9295451@1782018671.886760509`, HCS topic `0.0.9295532`, and compact decision proof `0.0.9295451@1782018672.202568545`.
+Verified hosted-flow evidence: testnet payment `0.0.9295451@1782021474.394770530`, HCS topic `0.0.9295569`, and compact decision proof `0.0.9295451@1782021479.141371116`.
 
 ## Implementation details
 
