@@ -1,20 +1,32 @@
 import Link from "next/link";
 import { ArrowRight, Check, Github, LockKeyhole, ShieldCheck } from "lucide-react";
+import { BrandMark } from "@/components/brand-mark";
 import { NoiseBackground } from "@/components/ui/noise-background";
 
 export function LandingPage() {
   return (
     <main className="landing-page">
+      <div className="landing-media" aria-hidden="true">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        >
+          <source src="/hero-liquid-metal.mp4" type="video/mp4" />
+        </video>
+        <div className="landing-media-shade" />
+      </div>
       <header className="landing-nav">
         <Link className="landing-brand" href="/" aria-label="Clearance home">
-          <Logo />
+          <BrandMark priority />
           <span>Clearance</span>
         </Link>
         <div className="landing-nav-actions">
           <a className="landing-source" href="https://github.com/shobhit1kapoor/clearance" target="_blank" rel="noreferrer">
             <Github size={15} /> Source
           </a>
-          <Link className="landing-nav-cta" href="/dashboard">Open control plane</Link>
         </div>
       </header>
 
@@ -49,8 +61,4 @@ export function LandingPage() {
       </footer>
     </main>
   );
-}
-
-function Logo() {
-  return <svg viewBox="0 0 32 32" role="img" aria-label="Clearance"><rect x="2" y="2" width="28" height="28" rx="9" fill="currentColor" opacity=".1"/><path d="M21.8 11.2a8 8 0 1 0 0 9.6M13 16l2.2 2.2L23 10.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 }

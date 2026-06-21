@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BadgeCheck, Ban, Check, ChevronLeft, ChevronRight, CircleDollarSign, Clock3, ExternalLink,
-  Fingerprint, Gauge, Github, Loader2, LockKeyhole, RefreshCw,
-  ScanLine, Send, ShieldCheck, TerminalSquare, TriangleAlert, X
+  Fingerprint, Github, Loader2, LockKeyhole, RefreshCw,
+  ScanLine, Send, ShieldCheck, TriangleAlert, X
 } from "lucide-react";
 import type { ClearanceRequest, PolicyCheck } from "@/lib/domain";
 import { scenarios } from "@/lib/domain";
+import { BrandMark } from "@/components/brand-mark";
+import { GridBackground } from "@/components/ui/grid-background";
 
 const scenarioList = [
   { key: "approved", label: "Approved vendor", sub: "1 HBAR · dependency scan", icon: ShieldCheck },
@@ -68,8 +71,9 @@ export function ClearanceApp() {
 
   return (
     <main className="dashboard-page">
+      <GridBackground className="dashboard-grid-background" />
       <header className="dashboard-nav">
-        <a className="brand" href="/" aria-label="Clearance home"><Logo /> <span>Clearance</span></a>
+        <a className="brand" href="/" aria-label="Clearance home"><BrandMark priority /> <span>Clearance</span></a>
         <div className="dashboard-nav-actions">
           <div className="network-pill"><span /> HEDERA TESTNET</div>
           <a className="github-link" href="https://github.com/shobhit1kapoor/clearance" target="_blank" rel="noreferrer"><Github size={15} /> Source</a>
@@ -95,12 +99,12 @@ export function ClearanceApp() {
           </aside>
 
           <div className="center-panel">
-            <div className="panel-top"><div><ShieldCheck size={16}/><span>Request console</span></div><span className="model">GEMINI · STRUCTURED INTENT</span></div>
+            <div className="panel-top"><div><ShieldCheck size={16}/><span>Request console</span></div></div>
             <div className="conversation">
-              <div className="agent-intro"><div className="agent-mark"><Logo/></div><div><strong>Create a purchase request</strong><p>Describe the service. Runtime policies verify the vendor, amount, purpose, risk, and authorization.</p></div></div>
+              <div className="agent-intro"><div><strong>Create a purchase request</strong><p>Describe the service. Runtime policies verify the vendor, amount, purpose, risk, and authorization.</p></div></div>
               <div className="prompt-box">
                 <textarea aria-label="Purchase request" value={prompt} onChange={e => setPrompt(e.target.value)} rows={3} />
-                <div><span><TerminalSquare size={14}/> Natural-language intent</span><button onClick={() => evaluate()} disabled={loading}>{loading ? <Loader2 className="spin" size={17}/> : <Send size={16}/>} Evaluate request</button></div>
+                <div className="prompt-actions"><button onClick={() => evaluate()} disabled={loading}>{loading ? <Loader2 className="spin" size={17}/> : <Send size={16}/>} Evaluate request</button></div>
               </div>
               {error && <div className="error-banner"><X size={16}/>{error}</div>}
               <AnimatePresence mode="wait">
@@ -120,11 +124,30 @@ export function ClearanceApp() {
 
           <aside className="inspector">
             <div className="inspector-head"><div><ShieldCheck size={17}/>Policy inspector</div>{request && <button onClick={startReplay}><RefreshCw size={13}/> Replay</button>}</div>
-            {!request ? <div className="empty-inspector"><Gauge/><strong>Awaiting intent</strong><p>Submit a request to see policies execute across the tool lifecycle.</p></div> : <>
-              <div className="risk-summary"><span>RISK SCORE</span><strong>{riskScore(request)}<small>/100</small></strong><div className={`risk-line ${request.decision === "BLOCKED" ? "blocked" : request.elevated ? "elevated" : "low"}`}><i style={{ width: `${riskScore(request)}%` }}/></div></div>
-              <div className="checks">{request.policyChecks.map(check => <PolicyRow key={check.key} check={check}/>)}</div>
-              <div className="timeline-title"><span>LIFECYCLE TRACE</span><small>{request.events.length} events</small></div>
-              <div className="timeline">{request.events.map((entry, index) => { const shown = replay === null || index <= replay; return <div className={`timeline-row ${shown ? entry.status : "muted"}`} key={entry.id}><span>{entry.status === "blocked" ? <X/> : entry.status === "error" ? <TriangleAlert/> : <Check/>}</span><div><strong>{entry.label}</strong><small>{entry.stage} · {new Date(entry.at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"})}</small></div></div>})}</div>
+            {!request ? <div className="empty-inspector">
+              <div className="empty-intent-visual">
+                <Image src="/clearance-awaiting-intent.png" alt="" width={360} height={360} priority />
+              </div>
+              <strong>Awaiting intent</strong>
+              <p>Submit a request to see policies execute across the tool lifecycle.</p>
+              <ol className="empty-lifecycle" aria-label="Policy lifecycle">
+                {[
+                  "Intent received",
+                  "Policy evaluation",
+                  "Risk scoring",
+                  "Authorization",
+                  "Decision"
+                ].map((label, index) => <li className={index === 0 ? "active" : ""} key={label}><span /><small>{label}</small></li>)}
+              </ol>
+            </div> : <>
+              <div className="inspector-content">
+                <div className="risk-summary"><span>RISK SCORE</span><strong>{riskScore(request)}<small>/100</small></strong><div className={`risk-line ${request.decision === "BLOCKED" ? "blocked" : request.elevated ? "elevated" : "low"}`}><i style={{ width: `${riskScore(request)}%` }}/></div></div>
+                <div className="checks">{request.policyChecks.map(check => <PolicyRow key={check.key} check={check}/>)}</div>
+                <div className="timeline-panel">
+                  <div className="timeline-title"><span>LIFECYCLE TRACE</span><small>{request.events.length} events</small></div>
+                  <div className="timeline">{request.events.map((entry, index) => { const shown = replay === null || index <= replay; return <div className={`timeline-row ${shown ? entry.status : "muted"}`} key={entry.id}><span>{entry.status === "blocked" ? <X/> : entry.status === "error" ? <TriangleAlert/> : <Check/>}</span><div><strong>{entry.label}</strong><small>{entry.stage} · {new Date(entry.at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"})}</small></div></div>})}</div>
+                </div>
+              </div>
             </>}
           </aside>
         </div>
@@ -134,7 +157,6 @@ export function ClearanceApp() {
   );
 }
 
-function Logo() { return <svg viewBox="0 0 32 32" role="img" aria-label="Clearance"><rect x="2" y="2" width="28" height="28" rx="9" fill="currentColor" opacity=".12"/><path d="M21.8 11.2a8 8 0 1 0 0 9.6M13 16l2.2 2.2L23 10.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg> }
 function hashscanTransaction(transactionId: string) { return `https://hashscan.io/testnet/transaction/${encodeURIComponent(transactionId)}`; }
 function riskScore(request: ClearanceRequest) { return request.decision === "BLOCKED" ? 92 : request.elevated ? 68 : 18; }
 function Data({label,value}:{label:string;value:string}) { return <div className="data"><small>{label}</small><strong>{value}</strong></div> }
