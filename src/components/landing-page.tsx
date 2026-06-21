@@ -20,10 +20,14 @@ export function LandingPage() {
 
       <section className="landing-hero">
         <div className="landing-copy">
-          <h1>The control layer between agents and money.</h1>
-          <p>Clearance enforces who agents can pay, how much they can spend, and when a person must approve—before HBAR moves.</p>
+          <h1 aria-label="The control layer between agents and money.">
+            <span className="landing-line"><span aria-hidden="true">The control layer</span></span>
+            <span className="landing-line"><span aria-hidden="true">between agents</span></span>
+            <span className="landing-line"><span aria-hidden="true">and money.</span></span>
+          </h1>
+          <p className="landing-subcopy">Clearance enforces who agents can pay, how much they can spend, and when a person must approve—before HBAR moves.</p>
           <NoiseBackground
-            containerClassName="landing-primary-noise"
+            containerClassName="landing-primary-noise landing-cta-reveal"
             gradientColors={["#cc3366", "#8259ef", "#b47aff"]}
           >
             <Link className="landing-primary" href="/dashboard">
