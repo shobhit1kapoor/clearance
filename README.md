@@ -150,7 +150,7 @@ The highest-value invariant is covered by a spy test: blocked and unapproved cal
 - Public repository and hosted agent intended to remain available for at least 90 days.
 - Hedera Agent Kit is a core dependency and execution boundary.
 - AI-generated code is reviewed and tested by the entrant.
-- Required feedback draft: [docs/FEEDBACK_ISSUE.md](docs/FEEDBACK_ISSUE.md).
+- Published Agent Kit feedback: [hashgraph/hedera-agent-kit-js#947](https://github.com/hashgraph/hedera-agent-kit-js/issues/947).
 - Third-party packages retain their respective licenses; the primary Hedera packages are Apache-2.0 licensed.
 
 ## License

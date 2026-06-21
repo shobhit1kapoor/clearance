@@ -1,4 +1,6 @@
-# Feedback issue draft
+# Published feedback issue
+
+https://github.com/hashgraph/hedera-agent-kit-js/issues/947
 
 **Repository:** `hashgraph/hedera-agent-kit-js`
 

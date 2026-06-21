@@ -4,7 +4,7 @@
 
 - Live agent: https://clearance-lovat.vercel.app
 - Public repository: https://github.com/shobhit1kapoor/clearance
-- Agent Kit feedback: pending publication from `docs/FEEDBACK_ISSUE.md`
+- Agent Kit feedback: https://github.com/hashgraph/hedera-agent-kit-js/issues/947
 
 ## Project description
 
