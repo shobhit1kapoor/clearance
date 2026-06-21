@@ -6,6 +6,8 @@ Clearance is a policy and approvals control plane for agentic spending on Hedera
 
 **Week 5 — Hedera Policy Agent · Hedera testnet · HBAR only**
 
+**Live agent:** [clearance-lovat.vercel.app](https://clearance-lovat.vercel.app) · **Source:** [github.com/shobhit1kapoor/clearance](https://github.com/shobhit1kapoor/clearance)
+
 ## Why Clearance
 
 Companies will not give autonomous agents unrestricted treasury access. They need spend limits, approved counterparties, allowed purchase purposes, contextual review, explicit human authorization, and evidence showing exactly where a request stopped. Clearance demonstrates that control plane using the runtime primitives the Hedera Agent Kit was designed to provide.

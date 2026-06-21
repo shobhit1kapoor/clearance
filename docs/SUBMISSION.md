@@ -1,5 +1,11 @@
 # Submission Copy
 
+## Submission links
+
+- Live agent: https://clearance-lovat.vercel.app
+- Public repository: https://github.com/shobhit1kapoor/clearance
+- Agent Kit feedback: pending publication from `docs/FEEDBACK_ISSUE.md`
+
 ## Project description
 
 Finance-grade approvals for AI agents that spend money: deterministic Hedera Agent Kit policies constrain HBAR purchases before transaction construction, with human authorization, HCS audit evidence, and a real paid GitHub security assessment.
