@@ -10,6 +10,8 @@ Clearance is the policy control plane between AI agents and money. Gemini can pr
 
 The live demo includes an approved 1 HBAR scan, a 25 HBAR unknown-vendor block that never reaches transaction construction, and an elevated production audit. Successful payments produce real Hedera testnet receipts, HCS audit evidence, and a post-payment GitHub security assessment.
 
+Verified evidence: testnet payment `0.0.9295451@1782018671.886760509`, HCS topic `0.0.9295532`, and compact decision proof `0.0.9295451@1782018672.202568545`.
+
 ## Implementation details
 
 Clearance uses `@hashgraph/hedera-agent-kit@4.0.0` and the Vercel AI SDK adapter. Only a custom `clearancePlugin` is registered. Its `ClearancePaymentTool` extends `BaseTool`; `coreAction` constructs the transfer and `secondaryAction` calls `handleTransaction` only after trusted approval context passes custom `AbstractPolicy` implementations. A custom trace hook records all verdicts, and the official `HcsAuditTrailHook` records successful tool execution.
