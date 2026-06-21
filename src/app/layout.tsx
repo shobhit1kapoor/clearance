@@ -6,10 +6,10 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "Clearance — Finance-grade approvals for AI agents",
-  description: "Policy-constrained agent payments in HBAR, enforced with Hedera Agent Kit Hooks and Policies.",
+  title: "Clearance — Policy control for agentic payments",
+  description: "Finance-grade policy enforcement and human approval for agentic payments on Hedera.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
-  openGraph: { title: "Clearance", description: "Let AI agents spend, without letting them run wild.", type: "website" }
+  openGraph: { title: "Clearance", description: "The control layer between agents and money.", type: "website" }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ArrowRight, BadgeCheck, Ban, Check, ChevronRight, CircleDollarSign, Clock3, ExternalLink,
-  FileSearch, Fingerprint, Gauge, Github, KeyRound, Loader2, LockKeyhole, Play, RefreshCw,
-  ScanLine, Send, ShieldCheck, Sparkles, TerminalSquare, TriangleAlert, WalletCards, X
+  BadgeCheck, Ban, Check, ChevronLeft, ChevronRight, CircleDollarSign, Clock3, ExternalLink,
+  Fingerprint, Gauge, Github, Loader2, LockKeyhole, RefreshCw,
+  ScanLine, Send, ShieldCheck, TerminalSquare, TriangleAlert, X
 } from "lucide-react";
 import type { ClearanceRequest, PolicyCheck } from "@/lib/domain";
 import { scenarios } from "@/lib/domain";
@@ -23,7 +23,6 @@ export function ClearanceApp() {
   const [error, setError] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [replay, setReplay] = useState<number | null>(null);
-  const workspaceRef = useRef<HTMLElement>(null);
 
   async function evaluate(value = prompt) {
     setPrompt(value); setLoading(true); setError(""); setRequest(null); setReplay(null);
@@ -68,31 +67,23 @@ export function ClearanceApp() {
   }, [replay, request]);
 
   return (
-    <main>
-      <header className="nav">
-        <a className="brand" href="#top" aria-label="Clearance home"><Logo /> <span>Clearance</span></a>
-        <div className="nav-center"><span className="live-dot" /> Hedera testnet</div>
-        <a className="github-link" href="https://github.com/shobhit1kapoor/clearance" target="_blank" rel="noreferrer"><Github size={16} /> GitHub</a>
+    <main className="dashboard-page">
+      <header className="dashboard-nav">
+        <a className="brand" href="/" aria-label="Clearance home"><Logo /> <span>Clearance</span></a>
+        <div className="dashboard-nav-actions">
+          <div className="network-pill"><span /> HEDERA TESTNET</div>
+          <a className="github-link" href="https://github.com/shobhit1kapoor/clearance" target="_blank" rel="noreferrer"><Github size={15} /> Source</a>
+        </div>
       </header>
 
-      <section className="hero grid-bg" id="top">
-        <div className="eyebrow"><span>POLICY INFRASTRUCTURE</span><i /> Built on Hedera Agent Kit v4</div>
-        <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>Let AI agents spend.<br/><em>Keep the final say.</em></motion.h1>
-        <p className="hero-copy">Finance-grade spend limits, approved counterparties, contextual review, and human authorization—enforced in the tool lifecycle before HBAR moves.</p>
-        <div className="hero-actions">
-          <button className="primary" onClick={() => workspaceRef.current?.scrollIntoView()}><Play size={16} fill="currentColor" /> Launch live demo</button>
-          <a className="secondary" href="#architecture">See how it works <ArrowRight size={16} /></a>
-        </div>
-        <div className="trust-row">
-          <span><ShieldCheck size={16} /> Runtime enforcement</span><span><Fingerprint size={16} /> HCS audit evidence</span><span><KeyRound size={16} /> Human-in-the-loop</span>
-        </div>
-        <div className="hero-orbit" aria-hidden="true"><div className="orbit-card a"><LockKeyhole/>Policy check</div><div className="orbit-card b"><WalletCards/>HBAR</div><div className="orbit-card c"><BadgeCheck/>Cleared</div><div className="orbit-core"><Logo/></div></div>
-      </section>
-
-      <section className="workspace-section" ref={workspaceRef}>
-        <div className="section-heading">
-          <div><span className="kicker">LIVE CONTROL PLANE</span><h2>Every payment earns clearance.</h2></div>
-          <div className="network-pill"><span /> TESTNET · LIVE WHEN CONFIGURED</div>
+      <section className="dashboard-shell">
+        <div className="dashboard-heading">
+          <div>
+            <a href="/" className="dashboard-back"><ChevronLeft size={14}/> Overview</a>
+            <h1>Spend control plane</h1>
+            <p>Review, enforce, and authorize agent purchase requests.</p>
+          </div>
+          <div className="dashboard-assurance"><ShieldCheck size={16}/><span><strong>Policies enforced</strong><small>Before transaction construction</small></span></div>
         </div>
         <div className="workspace glass">
           <aside className="rail">
@@ -105,9 +96,9 @@ export function ClearanceApp() {
           </aside>
 
           <div className="center-panel">
-            <div className="panel-top"><div><Sparkles size={16}/><span>Clearance agent</span></div><span className="model">GEMINI 2.5 FLASH</span></div>
+            <div className="panel-top"><div><ShieldCheck size={16}/><span>Request console</span></div><span className="model">GEMINI · STRUCTURED INTENT</span></div>
             <div className="conversation">
-              <div className="agent-intro"><div className="agent-mark"><Logo/></div><div><strong>What should I purchase?</strong><p>I can arrange approved security services. Every payment is checked by deterministic Hedera Agent Kit policies.</p></div></div>
+              <div className="agent-intro"><div className="agent-mark"><Logo/></div><div><strong>Create a purchase request</strong><p>Describe the service. Runtime policies verify the vendor, amount, purpose, risk, and authorization.</p></div></div>
               <div className="prompt-box">
                 <textarea aria-label="Purchase request" value={prompt} onChange={e => setPrompt(e.target.value)} rows={3} />
                 <div><span><TerminalSquare size={14}/> Natural-language intent</span><button onClick={() => evaluate()} disabled={loading}>{loading ? <Loader2 className="spin" size={17}/> : <Send size={16}/>} Evaluate request</button></div>
@@ -138,15 +129,8 @@ export function ClearanceApp() {
             </>}
           </aside>
         </div>
+        <footer className="dashboard-footer"><span>Clearance control plane</span><span>Hedera Agent Kit v4 · Testnet</span></footer>
       </section>
-
-      <section className="architecture" id="architecture"><span className="kicker">WHY HEDERA</span><h2>Policy is part of execution.<br/>Not a promise in the interface.</h2><div className="architecture-grid">{[
-        ["01","Intent",Sparkles,"Gemini converts language into a constrained, validated purchase schema."],
-        ["02","Policy",ShieldCheck,"Agent Kit hooks and policies inspect normalized values and block deterministically."],
-        ["03","Approval",Fingerprint,"A trusted server context exists only after an explicit, one-time human action."],
-        ["04","Evidence",FileSearch,"Hedera receipts, HCS records, and GitHub evidence make the outcome inspectable."]
-      ].map(([n,title,Icon,copy]) => { const I = Icon as typeof Sparkles; return <div className="architecture-card" key={title as string}><span>{n as string}</span><I/><h3>{title as string}</h3><p>{copy as string}</p></div>})}</div></section>
-      <footer><div className="brand"><Logo/><span>Clearance</span></div><p>Finance-grade approvals for AI agents that spend money.</p><span className="mono">HEDERA TESTNET · WEEK 5</span></footer>
     </main>
   );
 }
