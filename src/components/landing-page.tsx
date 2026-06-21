@@ -19,34 +19,11 @@ export function LandingPage() {
 
       <section className="landing-hero">
         <div className="landing-copy">
-          <div className="landing-kicker"><span /> Policy infrastructure for agentic payments</div>
           <h1>The control layer between agents and money.</h1>
           <p>Clearance enforces who agents can pay, how much they can spend, and when a person must approve—before HBAR moves.</p>
           <Link className="landing-primary" href="/dashboard">
             Open live control plane <ArrowRight size={17} />
           </Link>
-          <div className="landing-note"><span className="status-dot" /> Live on Hedera testnet</div>
-        </div>
-
-        <div className="product-preview" aria-label="Clearance policy decision preview">
-          <div className="preview-bar">
-            <div><Logo /><span>Purchase review</span></div>
-            <span className="preview-status">Approval required</span>
-          </div>
-          <div className="preview-body">
-            <div className="preview-title">
-              <span>Security assessment</span>
-              <strong>1 HBAR</strong>
-            </div>
-            <p>SecureScan Labs · shobhit1kapoor/signalops-demo</p>
-            <div className="preview-rule" />
-            <div className="preview-checks">
-              <PreviewCheck label="Transaction limit" value="Within limit" />
-              <PreviewCheck label="Vendor allowlist" value="Verified" />
-              <PreviewCheck label="Human approval" value="Required" pending />
-            </div>
-            <div className="preview-action"><LockKeyhole size={16} /> Awaiting authorized reviewer</div>
-          </div>
         </div>
       </section>
 
@@ -62,10 +39,6 @@ export function LandingPage() {
       </footer>
     </main>
   );
-}
-
-function PreviewCheck({ label, value, pending = false }: { label: string; value: string; pending?: boolean }) {
-  return <div><span className={pending ? "pending" : "pass"}><Check size={12} /></span><strong>{label}</strong><small>{value}</small></div>;
 }
 
 function Logo() {

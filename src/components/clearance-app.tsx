@@ -83,7 +83,6 @@ export function ClearanceApp() {
             <h1>Spend control plane</h1>
             <p>Review, enforce, and authorize agent purchase requests.</p>
           </div>
-          <div className="dashboard-assurance"><ShieldCheck size={16}/><span><strong>Policies enforced</strong><small>Before transaction construction</small></span></div>
         </div>
         <div className="workspace glass">
           <aside className="rail">
