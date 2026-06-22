@@ -126,7 +126,7 @@ export function ClearanceApp() {
             <div className="inspector-head"><div><ShieldCheck size={17}/>Policy inspector</div>{request && <button onClick={startReplay}><RefreshCw size={13}/> Replay</button>}</div>
             {!request ? <div className="empty-inspector">
               <div className="empty-intent-visual">
-                <Image src="/clearance-awaiting-intent.png" alt="" width={360} height={360} priority />
+                <Image src="/clearance-awaiting-intent.png" alt="" width={900} height={698} priority />
               </div>
               <strong>Awaiting intent</strong>
               <p>Submit a request to see policies execute across the tool lifecycle.</p>
